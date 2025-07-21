@@ -1,0 +1,38 @@
+---
+- hosts: vmlab
+  user: student
+  become: yes
+  vars:
+    apache_version: 2.6
+    motd_warning: "WARNING: used by ICT faculty/students only.\n"
+    testserver: yes
+  tasks:
+    - name: update apache
+      action: yum name=httpd state=latest
+    
+    - name: restart apache
+      service: 
+        name: httpd
+        state: restarted
+
+    - name: install enterprise Linux (EPEL) if it's not installed
+      action: yum name=epel-release state=present
+
+    - name: remove tree package
+      action: yum name=tree state=absent
+
+    - name: set the hostname to kang-kang
+      action: hostname name=kang-kang
+
+    - name: create a new user with your Seneca_ID with sudo access
+      action: user name=kang-kang password="$6$LvYxy7T4cTTBhCOT$MS060KQrtWKZ.ODfJNOdyrEH2xKETaAMPyJvp1iAMAumWowTVghJLnTMFLg4qEQ./rL0Ok5Fsn2ySoSAHS3Lg." groups=wheel append=yes state=present create_home=yes
+
+    - name: create .ssh directory
+      action: file path="/home/kang-kang/.ssh/" state=directory mode=0700 owner=kang-kang group=kang-kang
+
+    - name: copy ssh public key to the host
+      action: copy content="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMwIu6InfoTtQbao3wqD+K4bwO2e8zxcrUzsv9ovBM/X kang-kang@mtrx-node01pd.dcm.senecacollege.ca" dest="/home/kang-kang/.ssh/authorized_keys" owner=kang-kang group=kang-kang mode=0600
+
+    - name: create directories using a loop
+      action: file path="/home/kang-kang/ops445/lab{{ item }}" state=directory mode=755 owner=kang-kang group=kang-kang mode=0755
+      loop: "{{ range(1, 9) | list }}"

@@ -1,0 +1,43 @@
+
+PLAY [vmlab] *******************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [vmlab]
+
+TASK [update apache] ***********************************************************
+ok: [vmlab]
+
+TASK [restart apache] **********************************************************
+changed: [vmlab]
+
+TASK [install enterprise Linux (EPEL) if it's not installed] *******************
+ok: [vmlab]
+
+TASK [remove tree package] *****************************************************
+changed: [vmlab]
+
+TASK [set the hostname to kang-kang] *******************************************
+ok: [vmlab]
+
+TASK [create a new user with your Seneca_ID with sudo access] ******************
+ok: [vmlab]
+
+TASK [create .ssh directory] ***************************************************
+ok: [vmlab]
+
+TASK [copy ssh public key to the host] *****************************************
+ok: [vmlab]
+
+TASK [create directories using a loop] *****************************************
+ok: [vmlab] => (item=1)
+ok: [vmlab] => (item=2)
+ok: [vmlab] => (item=3)
+ok: [vmlab] => (item=4)
+ok: [vmlab] => (item=5)
+ok: [vmlab] => (item=6)
+ok: [vmlab] => (item=7)
+ok: [vmlab] => (item=8)
+
+PLAY RECAP *********************************************************************
+vmlab                      : ok=10   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
